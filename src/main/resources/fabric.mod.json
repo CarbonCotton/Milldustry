@@ -1,0 +1,37 @@
+{
+	"schemaVersion": 1,
+	"id": "milldustry",
+	"version": "${version}",
+	"name": "Milldustry",
+	"description": "This is an example description! Tell everyone what your mod is about!",
+	"authors": [
+		"CarbonCotton"
+	],
+	"contact": {
+		"homepage": "https://github.com/CarbonCotton/Milldustry",
+		"sources": "https://github.com/CarbonCotton/Milldustry"
+	},
+	"license": "LGPL-3.0-only",
+	"icon": "assets/milldustry/icon.png",
+	"environment": "*",
+	"entrypoints": {
+		"main": [
+          	"user.carboncotton.mc.milldustry.MilldustryMain"
+		],
+		"client": [
+			"user.carboncotton.mc.milldustry.MilldustryClient"
+		]
+	},
+	"mixins": [
+		"milldustry.mixins.json"
+	],
+	"depends": {
+		"fabricloader": ">=0.15.9",
+		"minecraft": "~1.20.1",
+		"java": ">=17",
+		"fabric-api": "*"
+	},
+	"suggests": {
+		"another-mod": "*"
+	}
+}
