@@ -2,11 +2,16 @@ package user.carboncotton.mc.milldustry.content;
 
 import net.minecraft.block.BlockState;
 import net.minecraft.block.entity.BlockEntity;
+import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.inventory.Inventories;
+import net.minecraft.inventory.Inventory;
+import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
+import net.minecraft.nbt.NbtCompound;
 import net.minecraft.util.collection.DefaultedList;
 import net.minecraft.util.math.BlockPos;
 
-public class MillBlockEntity extends BlockEntity {
+public class MillBlockEntity extends BlockEntity implements Inventory {
 
 	private static final int FUEL_SLOT_INDEX = 0;
 	private static final int INPUT_SLOT_INDEX = 1;
@@ -20,4 +25,90 @@ public class MillBlockEntity extends BlockEntity {
 
 		this.inventory = DefaultedList.ofSize(10, ItemStack.EMPTY);
 	}
+
+
+	@Override
+	public void readNbt(NbtCompound nbt) {
+		super.readNbt(nbt);
+
+		Inventories.readNbt(nbt, this.inventory);
+	}
+
+	@Override
+	public void writeNbt(NbtCompound nbt) {
+		super.writeNbt(nbt);
+
+		Inventories.writeNbt(nbt, this.inventory);
+	}
+
+	//*** INVENTORY INTERFACE ************************************
+
+	public DefaultedList<ItemStack> getItems() {
+
+		return this.inventory;
+	}
+
+	@Override
+	public int size() {
+
+		return this.getItems().size();
+	}
+
+	@Override
+	public boolean isEmpty() {
+		for(ItemStack itemStack : this.getItems()) {
+			if(!itemStack.isEmpty()) {
+				return false;
+			}
+		}
+
+		return true;
+	}
+
+	@Override
+	public ItemStack getStack(int slot) {
+
+		return this.getItems().get(slot);
+	}
+
+	@Override
+	public ItemStack removeStack(int slot, int count) {
+		ItemStack result = Inventories.splitStack(this.getItems(), slot, count);
+
+		if(!result.isEmpty()) {
+			this.markDirty();
+		}
+
+		return result;
+	}
+
+	@Override
+	public ItemStack removeStack(int slot) {
+
+		return Inventories.removeStack(this.getItems(), slot);
+	}
+
+
+	@Override
+	public void setStack(int slot, ItemStack stack) {
+		this.getItems().set(slot, stack);
+
+		if(stack.getCount() > stack.getMaxCount()) {
+			stack.setCount(stack.getMaxCount());
+		}
+	}
+
+	@Override
+	public void clear() {
+		this.getItems().clear();
+	}
+
+	@Override
+	public boolean canPlayerUse(PlayerEntity player) {
+		return true;
+	}
+
+
+
+
 }
