@@ -2,6 +2,8 @@ package user.carboncotton.mc.milldustry.content;
 
 import net.minecraft.block.*;
 import net.minecraft.block.entity.BlockEntity;
+import net.minecraft.block.entity.BlockEntityTicker;
+import net.minecraft.block.entity.BlockEntityType;
 import net.minecraft.fluid.FluidState;
 import net.minecraft.fluid.Fluids;
 import net.minecraft.item.ItemPlacementContext;
@@ -13,6 +15,7 @@ import net.minecraft.util.BlockMirror;
 import net.minecraft.util.BlockRotation;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Direction;
+import net.minecraft.world.World;
 import net.minecraft.world.WorldAccess;
 
 public class MillBlock extends BlockWithEntity implements Waterloggable {
@@ -45,6 +48,12 @@ public class MillBlock extends BlockWithEntity implements Waterloggable {
 	@Override
 	public BlockEntity createBlockEntity(BlockPos position, BlockState state) {
 		return new MillBlockEntity(position, state);
+	}
+
+
+	@Override
+	public <T extends BlockEntity>BlockEntityTicker<T> getTicker(World world, BlockState state, BlockEntityType<T> type) {
+		return checkType(type, AllObjects.KILN_BLOCK_ENTITY, MillBlockEntity::tick);
 	}
 
 

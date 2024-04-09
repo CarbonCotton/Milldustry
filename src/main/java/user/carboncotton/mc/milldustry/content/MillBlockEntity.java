@@ -13,6 +13,7 @@ import net.minecraft.nbt.NbtCompound;
 import net.minecraft.util.collection.DefaultedList;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Direction;
+import net.minecraft.world.World;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.Map;
@@ -53,6 +54,12 @@ public class MillBlockEntity extends BlockEntity implements Inventory, SidedInve
 
 		Inventories.writeNbt(nbt, this.inventory);
 	}
+
+
+	public static void tick(World world, BlockPos pos, BlockState state, MillBlockEntity blockEntity) {
+
+	}
+
 
 	//*** INVENTORY INTERFACE ************************************
 
