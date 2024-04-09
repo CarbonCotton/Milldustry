@@ -35,7 +35,7 @@ public class MillBlockEntity extends BlockEntity implements Inventory, SidedInve
 
 
 	public MillBlockEntity(BlockPos pos, BlockState state) {
-		super(AllObjects.KILN_BLOCK_ENTITY, pos, state);
+		super(AllObjects.MILL_BLOCK_ENTITY, pos, state);
 
 		this.inventory = DefaultedList.ofSize(10, ItemStack.EMPTY);
 	}

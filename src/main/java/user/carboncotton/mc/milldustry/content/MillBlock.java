@@ -53,7 +53,7 @@ public class MillBlock extends BlockWithEntity implements Waterloggable {
 
 	@Override
 	public <T extends BlockEntity>BlockEntityTicker<T> getTicker(World world, BlockState state, BlockEntityType<T> type) {
-		return checkType(type, AllObjects.KILN_BLOCK_ENTITY, MillBlockEntity::tick);
+		return checkType(type, AllObjects.MILL_BLOCK_ENTITY, MillBlockEntity::tick);
 	}
 
 

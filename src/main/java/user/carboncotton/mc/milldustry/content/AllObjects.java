@@ -18,7 +18,7 @@ public class AllObjects {
 
 	public static Item MILL_BLOCK_ITEM;
 
-	public static BlockEntityType<MillBlockEntity> KILN_BLOCK_ENTITY;
+	public static BlockEntityType<MillBlockEntity> MILL_BLOCK_ENTITY;
 
 	public static void init(String namespace) {
 		final var MillId = new Identifier(namespace, "mill");
@@ -41,7 +41,7 @@ public class AllObjects {
 			new BlockItem(MILL_BLOCK, new Item.Settings())
 		);
 
-		KILN_BLOCK_ENTITY = Registry.register(
+		MILL_BLOCK_ENTITY = Registry.register(
 			Registries.BLOCK_ENTITY_TYPE,
 			MillId,
 			FabricBlockEntityTypeBuilder.create(MillBlockEntity::new, MILL_BLOCK).build()
