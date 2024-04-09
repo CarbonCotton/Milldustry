@@ -127,8 +127,26 @@ public class MillBlockEntity extends BlockEntity implements Inventory, SidedInve
 		return false;
 	}
 
+
+	/**
+	 * Items can be extracted from following sides:
+	 * + bottom of the block (regardless of facing direction)
+	 * + back of the block (opposite of facing direction)
+	 *
+	 * Items can be extracted from slots in range 2 - 9
+	 */
 	@Override
 	public boolean canExtract(int slot, ItemStack stack, Direction dir) {
-		return false;
+
+		// you can't extract from those slots
+		if(slot == MillBlockEntity.FUEL_SLOT_INDEX || slot == MillBlockEntity.INPUT_SLOT_INDEX) {
+			return false;
+		}
+
+		// get back of the block
+		Direction blockBack = this.getCachedState().get(MillBlock.FACING).getOpposite();
+
+		return dir == Direction.DOWN || dir == blockBack;
+
 	}
 }
