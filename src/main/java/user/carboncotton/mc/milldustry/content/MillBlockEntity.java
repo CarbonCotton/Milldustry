@@ -24,7 +24,11 @@ public class MillBlockEntity extends BlockEntity implements Inventory, SidedInve
 
 	private static final int FUEL_SLOT_INDEX = 0;
 	private static final int INPUT_SLOT_INDEX = 1;
-	private static final int[] OUTPUT_SLOT_INDEX = new int[]{2,3,4,5,6,7,8,9};
+
+	private static final int[] FUEL_SLOTS = new int[]{FUEL_SLOT_INDEX};
+	private static final int[] INPUT_SLOTS = new int[]{INPUT_SLOT_INDEX};
+	private static final int[] OUTPUT_SLOTS = new int[]{2,3,4,5,6,7,8,9};
+
 	private DefaultedList<ItemStack> inventory;
 
 
@@ -125,7 +129,19 @@ public class MillBlockEntity extends BlockEntity implements Inventory, SidedInve
 
 	@Override
 	public int[] getAvailableSlots(Direction side) {
-		return new int[0];
+		// get front and back of the block
+		Direction facingDirection 	= this.getCachedState().get(MillBlock.FACING);
+		Direction backDirection 	= facingDirection.getOpposite();
+
+		if(side == facingDirection) {
+			return MillBlockEntity.INPUT_SLOTS;
+		}
+
+		if(side == backDirection || side == Direction.DOWN) {
+			return MillBlockEntity.OUTPUT_SLOTS;
+		}
+
+		return MillBlockEntity.FUEL_SLOTS;
 	}
 
 
