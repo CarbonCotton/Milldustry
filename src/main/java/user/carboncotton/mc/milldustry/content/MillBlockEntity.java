@@ -1,6 +1,7 @@
 package user.carboncotton.mc.milldustry.content;
 
 import net.minecraft.block.BlockState;
+import net.minecraft.block.entity.AbstractFurnaceBlockEntity;
 import net.minecraft.block.entity.BlockEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.inventory.Inventories;
@@ -14,7 +15,12 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Direction;
 import org.jetbrains.annotations.Nullable;
 
+import java.util.Map;
+
 public class MillBlockEntity extends BlockEntity implements Inventory, SidedInventory {
+
+	public static final Map<Item, Integer> FUEL_MAP = AbstractFurnaceBlockEntity.createFuelTimeMap();
+
 
 	private static final int FUEL_SLOT_INDEX = 0;
 	private static final int INPUT_SLOT_INDEX = 1;
@@ -122,8 +128,35 @@ public class MillBlockEntity extends BlockEntity implements Inventory, SidedInve
 		return new int[0];
 	}
 
+
 	@Override
 	public boolean canInsert(int slot, ItemStack stack, @Nullable Direction dir) {
+		//
+		if(slot == MillBlockEntity.INPUT_SLOT_INDEX) {
+			// get facing of block
+			Direction facingDirection = this.getCachedState().get(MillBlock.FACING);
+
+			// we can insert only from front
+			return facingDirection == dir;
+		}
+
+		// fuel slot
+		if(slot == MillBlockEntity.FUEL_SLOT_INDEX) {
+			// only fuel is allowed
+			if( !MillBlockEntity.FUEL_MAP.containsKey( stack.getItem() ) ) {
+				return false;
+			}
+
+			// get facing of block
+			Direction facingDirection = this.getCachedState().get(MillBlock.FACING);
+
+			// get back of block
+			Direction backDirection = facingDirection.getOpposite();
+
+			// can insert into any side except front or back
+			return dir != facingDirection && dir != backDirection;
+		}
+
 		return false;
 	}
 
