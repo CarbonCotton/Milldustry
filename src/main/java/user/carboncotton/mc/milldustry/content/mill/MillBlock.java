@@ -1,4 +1,4 @@
-package user.carboncotton.mc.milldustry.content;
+package user.carboncotton.mc.milldustry.content.mill;
 
 import net.minecraft.block.*;
 import net.minecraft.block.entity.BlockEntity;
@@ -53,7 +53,7 @@ public class MillBlock extends BlockWithEntity implements Waterloggable {
 
 	@Override
 	public <T extends BlockEntity>BlockEntityTicker<T> getTicker(World world, BlockState state, BlockEntityType<T> type) {
-		return checkType(type, AllObjects.MILL_BLOCK_ENTITY, MillBlockEntity::tick);
+		return checkType(type, AllMillObjects.MILL_BLOCK_ENTITY, MillBlockEntity::tick);
 	}
 
 

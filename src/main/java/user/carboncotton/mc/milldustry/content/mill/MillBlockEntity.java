@@ -1,4 +1,4 @@
-package user.carboncotton.mc.milldustry.content;
+package user.carboncotton.mc.milldustry.content.mill;
 
 import net.minecraft.block.BlockState;
 import net.minecraft.block.entity.AbstractFurnaceBlockEntity;
@@ -35,7 +35,7 @@ public class MillBlockEntity extends BlockEntity implements Inventory, SidedInve
 
 
 	public MillBlockEntity(BlockPos pos, BlockState state) {
-		super(AllObjects.MILL_BLOCK_ENTITY, pos, state);
+		super(AllMillObjects.MILL_BLOCK_ENTITY, pos, state);
 
 		this.inventory = DefaultedList.ofSize(10, ItemStack.EMPTY);
 	}
