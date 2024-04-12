@@ -24,6 +24,8 @@ public class MillBlockEntity extends BlockEntity implements Inventory, SidedInve
 	public static final Map<Item, Integer> FUEL_MAP = AbstractFurnaceBlockEntity.createFuelTimeMap();
 
 
+	//*** INVENTORY FIELDS ************************************
+
 	private static final int FUEL_SLOT_INDEX = 0;
 	private static final int INPUT_SLOT_INDEX = 1;
 
@@ -34,8 +36,11 @@ public class MillBlockEntity extends BlockEntity implements Inventory, SidedInve
 	private DefaultedList<ItemStack> inventory;
 
 
+	//*** MILLSTONE FIELDS ************************************
+
 	private static final String MILLING_BLOCK_KEY = "Millstone";
 	private ItemStack millingBlock;
+
 
 	public MillBlockEntity(BlockPos pos, BlockState state) {
 		super(AllMillObjects.MILL_BLOCK_ENTITY, pos, state);
