@@ -7,6 +7,7 @@ import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.inventory.Inventories;
 import net.minecraft.inventory.Inventory;
 import net.minecraft.inventory.SidedInventory;
+import net.minecraft.item.BlockItem;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NbtCompound;
@@ -33,11 +34,15 @@ public class MillBlockEntity extends BlockEntity implements Inventory, SidedInve
 	private DefaultedList<ItemStack> inventory;
 
 
+	private static final String MILLING_BLOCK_KEY = "Millstone";
+	private ItemStack millingBlock;
 
 	public MillBlockEntity(BlockPos pos, BlockState state) {
 		super(AllMillObjects.MILL_BLOCK_ENTITY, pos, state);
 
 		this.inventory = DefaultedList.ofSize(10, ItemStack.EMPTY);
+
+		this.setMillingBlock(ItemStack.EMPTY);
 	}
 
 
@@ -46,6 +51,14 @@ public class MillBlockEntity extends BlockEntity implements Inventory, SidedInve
 		super.readNbt(nbt);
 
 		Inventories.readNbt(nbt, this.inventory);
+
+		// reading millstone if it exists, otherwise set it to EMPTY
+		if(nbt.contains( MillBlockEntity.MILLING_BLOCK_KEY, 10 )) {
+			this.setMillingBlock(ItemStack.fromNbt(nbt.getCompound( MillBlockEntity.MILLING_BLOCK_KEY )));
+		}
+		else {
+			this.setMillingBlock(ItemStack.EMPTY);
+		}
 	}
 
 	@Override
@@ -53,6 +66,11 @@ public class MillBlockEntity extends BlockEntity implements Inventory, SidedInve
 		super.writeNbt(nbt);
 
 		Inventories.writeNbt(nbt, this.inventory);
+
+		// store millstone if it exists
+		if(!this.getMillingBlock().isEmpty()) {
+			nbt.put( MillBlockEntity.MILLING_BLOCK_KEY, this.getMillingBlock().writeNbt(new NbtCompound()) );
+		}
 	}
 
 
@@ -204,5 +222,15 @@ public class MillBlockEntity extends BlockEntity implements Inventory, SidedInve
 
 		return dir == Direction.DOWN || dir == blockBack;
 
+	}
+
+	public ItemStack getMillingBlock() {
+		return this.millingBlock;
+	}
+
+	public void setMillingBlock(ItemStack newMillingBlock) {
+		this.millingBlock = newMillingBlock;
+
+		this.markDirty();
 	}
 }
