@@ -101,7 +101,14 @@ public class MillBlockEntity extends BlockEntity implements Inventory, SidedInve
 	}
 
 
+	@Override
+	public void markDirty() {
+		super.markDirty();
 
+		if(world != null) {
+			this.world.updateListeners(this.getPos(), this.getCachedState(), this.getCachedState(), 3);
+		}
+	}
 
 	//*** INVENTORY INTERFACE ************************************
 
