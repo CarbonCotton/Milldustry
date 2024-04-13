@@ -229,6 +229,24 @@ public class MillBlockEntity extends BlockEntity implements Inventory, SidedInve
 
 	}
 
+	//*** INTERACTION INTERFACE ******************************
+
+
+	public ItemStack playerInteractedWithSide(ItemStack handItem) {
+		// TODO: add fuel handling in future
+		var oldMillingBlock = this.getMillingBlock();
+
+		this.setMillingBlock(handItem.copyWithCount(1));
+		handItem.decrement(1);
+
+		return oldMillingBlock;
+	}
+
+
+
+
+	//*** GETTERS & SETTERS ******************************
+
 	public ItemStack getMillingBlock() {
 		return this.millingBlock;
 	}

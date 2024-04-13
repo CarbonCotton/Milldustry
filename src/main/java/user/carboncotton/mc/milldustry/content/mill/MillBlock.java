@@ -92,6 +92,9 @@ public class MillBlock extends BlockWithEntity implements Waterloggable {
 		// get hit direction
 		var hitDirection = hit.getSide();
 
+		// get item in hand
+		var handItem = player.getStackInHand(hand);
+
 		// get front and back direction
 		var frontDirection = state.get(MillBlock.FACING);
 		var backDirection = frontDirection.getOpposite();
@@ -103,7 +106,13 @@ public class MillBlock extends BlockWithEntity implements Waterloggable {
 		}
 
 		// handling for side directions
-		return ActionResult.CONSUME;
+		{
+			var returnedItem = myBlockEntity.playerInteractedWithSide(handItem);
+
+			player.getInventory().insertStack(returnedItem);
+
+			return ActionResult.CONSUME;
+		}
 	}
 
 	@Override
