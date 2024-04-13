@@ -11,6 +11,9 @@ import net.minecraft.item.BlockItem;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NbtCompound;
+import net.minecraft.network.listener.ClientPlayPacketListener;
+import net.minecraft.network.packet.Packet;
+import net.minecraft.network.packet.s2c.play.BlockEntityUpdateS2CPacket;
 import net.minecraft.util.collection.DefaultedList;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Direction;
@@ -51,6 +54,14 @@ public class MillBlockEntity extends BlockEntity implements Inventory, SidedInve
 	}
 
 
+	public static void tick(World world, BlockPos pos, BlockState state, MillBlockEntity blockEntity) {
+
+	}
+
+
+
+	//*** NBT INTERFACE ************************************
+
 	@Override
 	public void readNbt(NbtCompound nbt) {
 		super.readNbt(nbt);
@@ -78,10 +89,18 @@ public class MillBlockEntity extends BlockEntity implements Inventory, SidedInve
 		}
 	}
 
-
-	public static void tick(World world, BlockPos pos, BlockState state, MillBlockEntity blockEntity) {
-
+	@Nullable
+	@Override
+	public Packet<ClientPlayPacketListener> toUpdatePacket() {
+		return BlockEntityUpdateS2CPacket.create(this);
 	}
+
+	@Override
+	public NbtCompound toInitialChunkDataNbt() {
+		return createNbt();
+	}
+
+
 
 
 	//*** INVENTORY INTERFACE ************************************
